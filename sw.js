@@ -3,6 +3,22 @@
 
 const CACHE_NAME = 'lab-7-starter';
 
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      // B6. Add all of the URLs from RECIPE_URLs to the cache
+      console.log('Adding URLs to cache:', RECIPE_URLs);
+      return cache.addAll(RECIPE_URLs);
+    })
+  );
+});
+
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(self.clients.claim());
+});
+;
+
 self.addEventListener('fetch', function (event) {
   event.respondWith(
     // B7. Open the cache using the name we gave above (CACHE_NAME)
